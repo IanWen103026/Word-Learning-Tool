@@ -14,7 +14,7 @@
    ```
 2. 打開專案目錄：
    ```bash
-   cd 資料夾名稱
+   cd Word-Learning-Tool
    ```
 
 ## 使用/修改方法
