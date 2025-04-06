@@ -10,7 +10,7 @@
 
 1. 複製到本地端：
    ```bash
-   git clone https://github.com/你的用戶名/你的儲存庫名.git
+   git clone https://github.com/IanWen103026/Word-Learning-Tool
    ```
 2. 打開專案目錄：
    ```bash
