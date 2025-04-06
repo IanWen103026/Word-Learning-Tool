@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>單字題庫</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet"></head>
+
+<body>
+
+
+  <button id="reset-button" onclick="resetProgress()">重置進度</button>
+  <button id="toggle-button" onclick="toggleMode()">難度：易</button>
+  <div class="slidecontainer">
+    <input type="range" id="resize-slider" class="slider" min="250" max="550" value="400" step="10" />
+
+  </div>
+
+  <div id="question-container">
+    <div id="counter2">內容 段考 最後更新於: 2024/3/19</div>
+    <div id="counter" style="display: none;">
+      當前題數: <span id="qcount">0</span>
+      <span id="current-question">0</span>
+      答對題目數: <span id="correct-count">0</span>
+      答錯題目數: <span id="wrong-count">0</span>
+      正確率: <span id="accuracy">0%</span>
+      完成進度: <span id="progress">0%</span>
+    </div>
+
+    <h1 id="chinese-word"></h1>
+
+    <div class="textInputWrapper">
+      <input placeholder="輸入答案" type="text" id="user-input" onkeydown="checkOnEnter(event)" class="textInput" />
+    </div>
+
+    <div class="progress-wrapper">
+      <div id="completion-progress" class="completion-bar">
+        <span id="completion-text" class="progress-text">0%</span>
+      </div>
+    </div>
+
+    <div class="progress-wrapper2">
+      <div id="accuracy-progress" class="accuracy-bar">
+        <span id="accuracy-text" class="progress-text">0%</span>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button id="check-button" onclick="checkAnswer()" class="pushable">
+        <span class="shadow"></span>
+        <span class="edge"></span>
+        <span class="front">檢查答案</span>
+      </button>
+      <button id="next-button" onclick="nextQuestion()" class="pushable" style="display: none;">
+        <span class="shadow"></span>
+        <span class="edge"></span>
+        <span class="front">下一題</span>
+      </button>
+    </div>
+
+    <h1 id="result"></h1>
+    <h1 id="result2"></h1>
+  </div>
+
+  <div id="notification1" class="notification">
+    <div class="notification-content">
+      <p>偵測到題庫更新，本地記錄已重置</p>
+      <button id="confirmBtn1">確認</button>
+    </div>
+  </div>
+
+  <div id="notification2" class="notification">
+    <div class="notification-content">
+      <p>歡迎使用單字題庫工具！</p>
+      <button id="confirmBtn2">開始答題</button>
+    </div>
+  </div>
+
+  <script src="word.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
