@@ -37,20 +37,24 @@ const hintWhiteList = ["n", "ving", "v","vt","vi","adj","adv","...","sb","sth","
 
 // Generate hint
 function getHint() {
-  
-
   return jsonData[currentIndex].English.split(" ").map(word => {
-    return word.split("/").map(part => {
-      if (hintWhiteList.includes(part.toLowerCase())) return part;
-
-      if (part.length <= 3) return "_";
-      const first = part[0], last = part[part.length - 1];
-
-      if (mode === 0) return `${first}_${last}`;
-      if (mode === 1) return `${first}_`;
-      return "_";
-    }).join("/");
+    const parts = word.split("/");
+    if (parts.length > 1) {
+      return parts.map(part => formatHint(part)).join(" / ");
+    } else {
+      return formatHint(word);
+    }
   }).join(" ");
+}
+
+function formatHint(part) {
+  const lowerPart = part.toLowerCase();
+  if (hintWhiteList.includes(lowerPart)) return part;
+  if (part.length <= 3) return "_";
+  const first = part[0], last = part[part.length - 1];
+  if (mode === 0) return `${first}_${last}`;
+  if (mode === 1) return `${first}_`;
+  return "_";
 }
 
 
@@ -79,10 +83,23 @@ slider.addEventListener('input', function () {
 
 
 
-// Input
-/**
- * Checks the user's answer against the correct answer and updates the result and counts.
- */
+
+function normalizeAnswer(str) {
+  return str
+    .split(" ")
+    .filter(word => !hintWhiteList.includes(word.toLowerCase())) // 過濾保留字
+    .map(word => {
+      if (word.includes("/")) {
+        return word
+          .split("/")
+          .sort()
+          .join("/"); // 對斜線分隔的單字排序
+      }
+      return word;
+    })
+    .join(" ");
+}
+
 function checkAnswer() {
   if (usedIndices.length >= jsonData.length) return;
 
@@ -100,7 +117,10 @@ const filteredAnswer = answer
   .filter(word => !hintWhiteList.includes(word) && !word.includes("/"))
   .join(" ");
 
-  if (filteredInput === filteredAnswer) {
+  const normalizedInput = normalizeAnswer(input);
+  const normalizedAnswer = normalizeAnswer(answer);
+  
+  if (normalizedInput === normalizedAnswer) {
     resultElem.textContent = '正確！';
     usedIndices.push(currentIndex);
     correctCount++;
@@ -132,7 +152,6 @@ function changeCheckButtonToReset() {
   btn.setAttribute('onclick', 'resetQuiz()');
 }
 
-// Reset progress & data
 function resetQuiz() {
   resetProgress();
   correctCount = 0;
@@ -160,7 +179,6 @@ function resetQuiz() {
   btn.setAttribute('onclick', 'checkAnswer()');
 }
 
-// Load next question
 function nextQuestion() {
   if (usedIndices.length === jsonData.length) return;
 
@@ -174,7 +192,6 @@ function nextQuestion() {
   if (currentIndex !== null) loadQuestion();
 }
 
-// Update chart
 function updateProgressChart() {
   const total = jsonData.length;
   const completed = usedIndices.length;
@@ -194,7 +211,6 @@ function checkOnEnter(event) {
   }
 }
 
-// Cookie operations
 function setCookie(name, value, days) {
   const d = new Date();
   d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -236,7 +252,6 @@ function resetProgress() {
   updateProgressChart();
 }
 
-// Storing data
 function loadProgress() {
 
   const savedScale = getCookie('pageScale');
@@ -269,5 +284,4 @@ function loadProgress() {
   loadQuestion();
 }
 
-// Load Progress
 loadProgress();

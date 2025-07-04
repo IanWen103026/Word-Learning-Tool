@@ -1,7 +1,7 @@
 const jsonData = [
   {
     Chinese: "蘋果",
-    English: "Apple",
+    English: "Apple/Apple",
   },
   {
     Chinese: "N/Ving",
